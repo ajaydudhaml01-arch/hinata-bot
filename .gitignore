@@ -1,0 +1,5 @@
+node_modules/
+.env
+data/temp_test.json
+.vscode/
+package-lock.json

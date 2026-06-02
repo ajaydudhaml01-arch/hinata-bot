@@ -1,0 +1,22 @@
+{
+  "colors": {
+    "primary": "#5865F2",
+    "success": "#57F287",
+    "warning": "#FEE75C",
+    "danger": "#ED4245",
+    "info": "#3498DB",
+    "neutral": "#2B2D31"
+  },
+  "defaultSettings": {
+    "welcomeChannelId": "1467356654487208048",
+    "farewellChannelId": "1467359263767662767",
+    "welcomeRoleName": "Member",
+    "ticketCategoryId": "1467388411454423214",
+    "ticketStaffRoleId": "",
+    "logChannelId": "1467359183014990067",
+    "joinToCreateChannelId": "",
+    "blockedWords": ["free-nitro", "discord-scam", "cheap-vbucks"],
+    "levelRoles": {},
+    "memberCountChannelId": "1467378476695945399"
+  }
+}
