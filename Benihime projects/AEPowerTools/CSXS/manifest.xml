@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionManifest Version="9.0" ExtensionBundleId="com.aepowertools.panel"
+                   ExtensionBundleVersion="1.0.0"
+                   ExtensionBundleName="AE PowerTools"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <ExtensionList>
+        <Extension Id="com.aepowertools.panel" Version="1.0.0" />
+    </ExtensionList>
+
+    <ExecutionEnvironment>
+        <HostList>
+            <Host Name="AEFT" Version="[17.0,99.9]" />
+        </HostList>
+        <LocaleList>
+            <Locale Code="All" />
+        </LocaleList>
+        <RequiredRuntimeList>
+            <RequiredRuntime Name="CSXS" Version="9.0" />
+        </RequiredRuntimeList>
+    </ExecutionEnvironment>
+
+    <DispatchInfoList>
+        <Extension Id="com.aepowertools.panel">
+            <DispatchInfo>
+                <Resources>
+                    <MainPath>./index.html</MainPath>
+                    <ScriptPath>./host/host.jsx</ScriptPath>
+                    <CEFCommandLine>
+                        <Parameter>--allow-file-access-from-files</Parameter>
+                        <Parameter>--allow-file-access</Parameter>
+                        <Parameter>--enable-nodejs</Parameter>
+                    </CEFCommandLine>
+                </Resources>
+                <Lifecycle>
+                    <AutoVisible>true</AutoVisible>
+                </Lifecycle>
+                <UI>
+                    <Type>Panel</Type>
+                    <Menu>AE PowerTools</Menu>
+                    <Geometry>
+                        <Size>
+                            <Height>900</Height>
+                            <Width>380</Width>
+                        </Size>
+                        <MinSize>
+                            <Height>400</Height>
+                            <Width>320</Width>
+                        </MinSize>
+                        <MaxSize>
+                            <Height>2000</Height>
+                            <Width>600</Width>
+                        </MaxSize>
+                    </Geometry>
+                    <Icons />
+                </UI>
+            </DispatchInfo>
+        </Extension>
+    </DispatchInfoList>
+</ExtensionManifest>

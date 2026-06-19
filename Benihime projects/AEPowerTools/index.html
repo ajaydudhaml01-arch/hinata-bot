@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AE PowerTools</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <nav id="tab-bar">
+            <button class="tab-btn active" data-tab="layers" title="Layer Tools">
+                <span class="tab-icon">◧</span><span class="tab-label">Layers</span>
+            </button>
+            <button class="tab-btn" data-tab="keyframes" title="Keyframe Tools">
+                <span class="tab-icon">◆</span><span class="tab-label">Keys</span>
+            </button>
+            <button class="tab-btn" data-tab="comps" title="Composition Tools">
+                <span class="tab-icon">▣</span><span class="tab-label">Comps</span>
+            </button>
+            <button class="tab-btn" data-tab="text" title="Text Tools">
+                <span class="tab-icon">T</span><span class="tab-label">Text</span>
+            </button>
+            <button class="tab-btn" data-tab="render" title="Render & Export">
+                <span class="tab-icon">▶</span><span class="tab-label">Render</span>
+            </button>
+            <button class="tab-btn" data-tab="expressions" title="Expression Tools">
+                <span class="tab-icon">ƒ</span><span class="tab-label">Expr</span>
+            </button>
+            <button class="tab-btn" data-tab="color" title="Color & Effects">
+                <span class="tab-icon">◐</span><span class="tab-label">Color</span>
+            </button>
+            <button class="tab-btn" data-tab="project" title="Project Tools">
+                <span class="tab-icon">☰</span><span class="tab-label">Project</span>
+            </button>
+        </nav>
+
+        <!-- TAB 1: LAYER TOOLS -->
+        <div id="tab-layers" class="tab-content active">
+            <section class="tool-group">
+                <h3 class="group-title">Select by Type</h3>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="selectLayersByType('shape')" title="Select all shape layers">Shape</button>
+                    <button class="tool-btn" onclick="selectLayersByType('text')" title="Select all text layers">Text</button>
+                    <button class="tool-btn" onclick="selectLayersByType('null')" title="Select all null layers">Null</button>
+                    <button class="tool-btn" onclick="selectLayersByType('solid')" title="Select all solid layers">Solid</button>
+                    <button class="tool-btn" onclick="selectLayersByType('precomp')" title="Select all pre-compositions">Precomp</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Rename Layers</h3>
+                <div class="input-row">
+                    <input type="text" id="rename-prefix" placeholder="Prefix..." title="Add prefix to layer names">
+                    <input type="text" id="rename-suffix" placeholder="Suffix..." title="Add suffix to layer names">
+                </div>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="renameLayers('prefix')" title="Add prefix to selected layers">+ Prefix</button>
+                    <button class="tool-btn" onclick="renameLayers('suffix')" title="Add suffix to selected layers">+ Suffix</button>
+                </div>
+                <div class="input-row">
+                    <input type="text" id="rename-find" placeholder="Find..." title="Text to find in layer names">
+                    <input type="text" id="rename-replace" placeholder="Replace..." title="Replacement text">
+                </div>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="renameLayers('findReplace')" title="Find and replace in layer names">Find & Replace</button>
+                    <button class="tool-btn" onclick="renameLayers('autoNumber')" title="Auto-number selected layers sequentially">Auto-Number</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Layer Actions</h3>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="soloSelectedLayers()" title="Toggle solo on selected layers">Solo Toggle</button>
+                    <button class="tool-btn" onclick="lockAllLayers(true)" title="Lock all layers in comp">Lock All</button>
+                    <button class="tool-btn" onclick="lockAllLayers(false)" title="Unlock all layers in comp">Unlock All</button>
+                </div>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="deleteDisabledLayers()" title="Delete all disabled (shy/hidden) layers">Del Disabled</button>
+                    <button class="tool-btn" onclick="centerAnchorPoint()" title="Center anchor point of selected layers">Center Anchor</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Blend Mode</h3>
+                <div class="input-row">
+                    <select id="blend-mode-select" title="Choose blend mode to apply">
+                        <option value="5220">Normal</option>
+                        <option value="5224">Multiply</option>
+                        <option value="5225">Screen</option>
+                        <option value="5226">Overlay</option>
+                        <option value="5227">Soft Light</option>
+                        <option value="5228">Hard Light</option>
+                        <option value="5221">Dissolve</option>
+                        <option value="5222">Darken</option>
+                        <option value="5223">Color Burn</option>
+                        <option value="5229">Color Dodge</option>
+                        <option value="5230">Lighten</option>
+                        <option value="5231">Linear Dodge</option>
+                        <option value="5232">Linear Burn</option>
+                        <option value="5233">Linear Light</option>
+                        <option value="5234">Vivid Light</option>
+                        <option value="5235">Pin Light</option>
+                        <option value="5236">Difference</option>
+                        <option value="5237">Exclusion</option>
+                        <option value="5238">Hue</option>
+                        <option value="5239">Saturation</option>
+                        <option value="5240">Color</option>
+                        <option value="5241">Luminosity</option>
+                    </select>
+                    <button class="tool-btn accent" onclick="setBlendMode()" title="Apply selected blend mode to all selected layers">Apply</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Duplicate with Offset</h3>
+                <div class="input-row triple">
+                    <input type="number" id="dup-offset-x" placeholder="X offset (px)" value="0" title="Horizontal offset in pixels">
+                    <input type="number" id="dup-offset-y" placeholder="Y offset (px)" value="0" title="Vertical offset in pixels">
+                    <input type="number" id="dup-offset-t" placeholder="Time (s)" value="0" step="0.1" title="Time offset in seconds">
+                </div>
+                <div class="input-row">
+                    <input type="number" id="dup-count" placeholder="Copies" value="1" min="1" title="Number of copies to create">
+                    <button class="tool-btn accent" onclick="duplicateWithOffset()" title="Duplicate selected layers with specified offsets">Duplicate</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 2: KEYFRAME TOOLS -->
+        <div id="tab-keyframes" class="tab-content">
+            <section class="tool-group">
+                <h3 class="group-title">Keyframe Timing</h3>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="copyKeyframeTiming()" title="Copy keyframe timing from first selected layer to others">Copy Timing</button>
+                    <button class="tool-btn" onclick="reverseKeyframes()" title="Reverse keyframes on selected layers">Reverse Keys</button>
+                    <button class="tool-btn" onclick="snapKeyframesToFrame()" title="Snap all keyframes to nearest whole frame">Snap to Frame</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Easing</h3>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="easeKeyframes('in')" title="Apply ease-in to selected keyframes">Ease In</button>
+                    <button class="tool-btn" onclick="easeKeyframes('out')" title="Apply ease-out to selected keyframes">Ease Out</button>
+                    <button class="tool-btn" onclick="easeKeyframes('inout')" title="Apply ease-in-out to selected keyframes">Ease In-Out</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Offset Keyframes</h3>
+                <div class="input-row">
+                    <input type="number" id="key-offset-frames" placeholder="Frames (+/-)" value="0" title="Number of frames to offset (negative = backward)">
+                    <button class="tool-btn accent" onclick="offsetKeyframes()" title="Offset keyframes by specified frames">Offset</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Keyframe Actions</h3>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="convertToHoldKeyframes()" title="Convert all keyframes on selected layers to hold keyframes">To Hold</button>
+                    <button class="tool-btn danger" onclick="deleteAllKeyframes()" title="Delete all keyframes on selected properties">Delete All Keys</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 3: COMPOSITION TOOLS -->
+        <div id="tab-comps" class="tab-content">
+            <section class="tool-group">
+                <h3 class="group-title">New Composition</h3>
+                <div class="input-row">
+                    <input type="text" id="comp-name" placeholder="Comp name" title="Name for the new composition">
+                </div>
+                <div class="input-row triple">
+                    <input type="number" id="comp-width" placeholder="Width" value="1920" title="Width in pixels">
+                    <input type="number" id="comp-height" placeholder="Height" value="1080" title="Height in pixels">
+                    <input type="number" id="comp-fps" placeholder="FPS" value="30" step="0.001" title="Frames per second">
+                </div>
+                <div class="input-row">
+                    <input type="number" id="comp-duration" placeholder="Duration (s)" value="10" step="0.1" title="Duration in seconds">
+                    <input type="color" id="comp-bg-color" value="#000000" title="Background color">
+                    <button class="tool-btn accent" onclick="createNewComp()" title="Create new composition with these settings">Create</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Quick Presets</h3>
+                <div class="btn-row wrap">
+                    <button class="tool-btn" onclick="createCompPreset('1080p')" title="1920×1080 @ 30fps">1080p</button>
+                    <button class="tool-btn" onclick="createCompPreset('4K')" title="3840×2160 @ 30fps">4K</button>
+                    <button class="tool-btn" onclick="createCompPreset('reels')" title="1080×1920 @ 30fps vertical">Reels 9:16</button>
+                    <button class="tool-btn" onclick="createCompPreset('square')" title="1080×1080 @ 30fps">Square 1:1</button>
+                    <button class="tool-btn" onclick="createCompPreset('twitter')" title="1920×1080 @ 30fps 16:9">Twitter 16:9</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Comp Actions</h3>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="trimCompToWorkArea()" title="Trim active comp duration to match work area">Trim to Work Area</button>
+                    <button class="tool-btn" onclick="duplicateComp()" title="Duplicate active comp with a new name">Duplicate Comp</button>
+                </div>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="precomposeSelected()" title="Pre-compose selected layers with auto-naming">Pre-compose</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Background Color</h3>
+                <div class="input-row">
+                    <input type="color" id="comp-set-bg" value="#000000" title="Pick new background color">
+                    <button class="tool-btn accent" onclick="setCompBgColor()" title="Set comp background to picked color">Set BG Color</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Scale Comp</h3>
+                <div class="input-row">
+                    <input type="number" id="comp-scale-pct" placeholder="Scale %" value="100" min="1" max="1000" title="Percentage to scale (e.g. 50 = half size)">
+                    <button class="tool-btn accent" onclick="scaleComp()" title="Resize comp and all content proportionally">Scale</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 4: TEXT TOOLS -->
+        <div id="tab-text" class="tab-content">
+            <section class="tool-group">
+                <h3 class="group-title">Font</h3>
+                <div class="input-row">
+                    <input type="text" id="text-font" placeholder="Font name (e.g. Arial)" title="PostScript name or display name of the font">
+                    <button class="tool-btn accent" onclick="applyFontToSelected()" title="Apply font to all selected text layers">Apply Font</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Font Size</h3>
+                <div class="input-row">
+                    <input type="number" id="text-size" placeholder="Size (px)" value="48" min="1" title="Font size in pixels">
+                    <button class="tool-btn accent" onclick="setFontSize()" title="Set font size on all selected text layers">Set Size</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Text Color</h3>
+                <div class="input-row">
+                    <input type="color" id="text-color" value="#ffffff" title="Pick text color">
+                    <button class="tool-btn accent" onclick="setTextColor()" title="Change color of all selected text layers">Set Color</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Find & Replace</h3>
+                <div class="input-row">
+                    <input type="text" id="text-find" placeholder="Find text..." title="Text to search for">
+                    <input type="text" id="text-replace-val" placeholder="Replace with..." title="Replacement text">
+                </div>
+                <button class="tool-btn accent full" onclick="findReplaceText()" title="Find and replace text across all text layers in comp">Find & Replace in Comp</button>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Text Audit</h3>
+                <button class="tool-btn full" onclick="auditTextLayers()" title="List all text content in the active comp">Audit Text Layers</button>
+                <div id="text-audit-list" class="audit-list"></div>
+            </section>
+        </div>
+
+        <!-- TAB 5: RENDER & EXPORT -->
+        <div id="tab-render" class="tab-content">
+            <section class="tool-group">
+                <h3 class="group-title">Render Queue</h3>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="addToRenderQueue()" title="Add active comp to the render queue">Add Active Comp</button>
+                    <button class="tool-btn" onclick="addAllCompsToRQ()" title="Add all open comps to the render queue">Add All Comps</button>
+                </div>
+                <div class="btn-row">
+                    <button class="tool-btn accent" onclick="startRenderQueue()" title="Start rendering the render queue">Start Render</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Output Path</h3>
+                <div class="input-row">
+                    <input type="text" id="render-output-path" placeholder="Output folder path..." readonly title="Selected output folder">
+                    <button class="tool-btn" onclick="pickOutputFolder()" title="Browse for output folder">Browse</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Media Encoder Export</h3>
+                <div class="btn-row wrap">
+                    <button class="tool-btn" onclick="exportViaAME('H264_1080')" title="Export H.264 1080p via Adobe Media Encoder">H.264 1080p</button>
+                    <button class="tool-btn" onclick="exportViaAME('H264_4K')" title="Export H.264 4K via Adobe Media Encoder">H.264 4K</button>
+                    <button class="tool-btn" onclick="exportViaAME('ProRes422')" title="Export ProRes 422 via Adobe Media Encoder">ProRes 422</button>
+                    <button class="tool-btn" onclick="exportViaAME('ProRes4444')" title="Export ProRes 4444 via Adobe Media Encoder">ProRes 4444</button>
+                </div>
+                <div class="btn-row wrap">
+                    <button class="tool-btn" onclick="exportViaAME('GIF')" title="Export as animated GIF via Adobe Media Encoder">GIF</button>
+                    <button class="tool-btn" onclick="exportViaAME('WebM')" title="Export WebM via Adobe Media Encoder">WebM</button>
+                    <button class="tool-btn" onclick="exportViaAME('PNG_Seq')" title="Export PNG Sequence via render queue">PNG Sequence</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 6: EXPRESSION TOOLS -->
+        <div id="tab-expressions" class="tab-content">
+            <section class="tool-group">
+                <h3 class="group-title">Apply Expression</h3>
+                <div class="input-row">
+                    <select id="expr-preset" title="Choose an expression preset" onchange="onExprPresetChange()">
+                        <option value="wiggle">wiggle</option>
+                        <option value="loopOut">loopOut</option>
+                        <option value="loopIn">loopIn</option>
+                        <option value="timeSpeed">time × N</option>
+                        <option value="random">random (seeded)</option>
+                        <option value="bounce">bounce (overshoot)</option>
+                        <option value="posterizeTime">posterizeTime</option>
+                    </select>
+                </div>
+                <div id="expr-params">
+                    <div class="input-row" id="expr-wiggle-params">
+                        <input type="number" id="expr-freq" placeholder="Frequency" value="3" step="0.1" title="Oscillations per second">
+                        <input type="number" id="expr-amp" placeholder="Amplitude" value="25" step="1" title="Max deviation in pixels">
+                    </div>
+                    <div class="input-row hidden" id="expr-time-params">
+                        <input type="number" id="expr-speed-mult" placeholder="Multiplier" value="100" step="1" title="Speed multiplier value">
+                    </div>
+                    <div class="input-row hidden" id="expr-random-params">
+                        <input type="number" id="expr-seed" placeholder="Seed" value="42" title="Random seed value">
+                        <input type="number" id="expr-min" placeholder="Min" value="0" title="Minimum random value">
+                        <input type="number" id="expr-max" placeholder="Max" value="100" title="Maximum random value">
+                    </div>
+                    <div class="input-row hidden" id="expr-bounce-params">
+                        <input type="number" id="expr-bounce-amp" placeholder="Amplitude" value="0.06" step="0.01" title="Bounce amplitude">
+                        <input type="number" id="expr-bounce-freq" placeholder="Frequency" value="2.5" step="0.1" title="Bounce frequency">
+                        <input type="number" id="expr-bounce-decay" placeholder="Decay" value="6" step="0.5" title="Bounce decay rate">
+                    </div>
+                    <div class="input-row hidden" id="expr-posterize-params">
+                        <input type="number" id="expr-poster-fps" placeholder="FPS" value="12" min="1" title="Target frame rate">
+                    </div>
+                </div>
+                <button class="tool-btn accent full" onclick="applyExpression()" title="Apply selected expression to the selected property">Apply Expression</button>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Expression Actions</h3>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="removeAllExpressions()" title="Remove all expressions from selected layers">Remove from Selected</button>
+                </div>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="toggleExpressionsInComp(true)" title="Enable all expressions in active comp">Enable All</button>
+                    <button class="tool-btn" onclick="toggleExpressionsInComp(false)" title="Disable all expressions in active comp">Disable All</button>
+                </div>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="copyPasteExpression()" title="Copy expression from first selected property, paste to selected layers">Copy & Paste Expr</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 7: COLOR & EFFECTS -->
+        <div id="tab-color" class="tab-content">
+            <section class="tool-group">
+                <h3 class="group-title">Adjustment Layers</h3>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="addAdjustmentLayer()" title="Add a solid color adjustment layer to the active comp">Add Adjustment</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Quick Effects</h3>
+                <div class="btn-row wrap">
+                    <button class="tool-btn" onclick="applyQuickEffect('Lumetri')" title="Apply Lumetri Color to selected layers">Lumetri</button>
+                    <button class="tool-btn" onclick="applyQuickEffect('Curves')" title="Apply Curves to selected layers">Curves</button>
+                    <button class="tool-btn" onclick="applyQuickEffect('HueSat')" title="Apply Hue/Saturation to selected layers">Hue/Sat</button>
+                    <button class="tool-btn" onclick="applyQuickEffect('BrightContrast')" title="Apply Brightness & Contrast to selected layers">Bright/Contrast</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Color Palette</h3>
+                <div id="palette-swatches" class="swatch-grid"></div>
+                <div class="input-row">
+                    <input type="color" id="palette-color-pick" value="#4488ff" title="Pick a color to save">
+                    <button class="tool-btn" onclick="saveSwatch()" title="Save current color to palette">Save</button>
+                    <button class="tool-btn danger" onclick="clearPalette()" title="Clear all saved swatches">Clear All</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Effects Actions</h3>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="copyPasteEffects()" title="Copy effects from first selected layer and paste to remaining selected layers">Copy & Paste FX</button>
+                    <button class="tool-btn danger" onclick="removeAllEffects()" title="Remove all effects from selected layers">Remove All FX</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 8: PROJECT TOOLS -->
+        <div id="tab-project" class="tab-content">
+            <section class="tool-group">
+                <h3 class="group-title">Project Info</h3>
+                <button class="tool-btn full" onclick="showProjectInfo()" title="Show comp count, footage count, and project file size">Show Project Info</button>
+                <div id="project-info-panel" class="info-panel"></div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Cleanup</h3>
+                <div class="btn-row">
+                    <button class="tool-btn" onclick="consolidateFootage()" title="Collect and consolidate unused footage items">Consolidate Footage</button>
+                    <button class="tool-btn danger" onclick="removeUnusedItems()" title="Remove all unused items from the project">Remove Unused</button>
+                </div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Search Project</h3>
+                <div class="input-row">
+                    <input type="text" id="project-search" placeholder="Search item name..." title="Filter project items by name">
+                    <button class="tool-btn" onclick="searchProjectItems()" title="Search for items in the project panel">Search</button>
+                </div>
+                <div id="project-search-results" class="audit-list"></div>
+            </section>
+            <section class="tool-group">
+                <h3 class="group-title">Folder Structure</h3>
+                <button class="tool-btn accent full" onclick="createFolderStructure()" title="Create _COMPS, _FOOTAGE, _PRECOMPS, _RENDERS folders">Create Folders</button>
+            </section>
+        </div>
+
+        <div id="status-bar">
+            <span id="status-text">Ready</span>
+        </div>
+    </div>
+    <script src="lib/CSInterface.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

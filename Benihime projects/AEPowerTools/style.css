@@ -1,0 +1,385 @@
+/* AE PowerTools — Dark theme matching After Effects */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-base: #1e1e1e;
+    --bg-panel: #2a2a2a;
+    --bg-input: #1a1a1a;
+    --bg-hover: #353535;
+    --bg-active: #3a3a3a;
+    --accent: #4488ff;
+    --accent-hover: #5599ff;
+    --accent-dim: rgba(68, 136, 255, 0.15);
+    --danger: #ff4455;
+    --danger-hover: #ff6677;
+    --success: #44cc66;
+    --text-primary: #e0e0e0;
+    --text-secondary: #999;
+    --text-dim: #666;
+    --border: #3a3a3a;
+    --radius: 4px;
+    --transition: 150ms ease;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    font-size: 12px;
+    color: var(--text-primary);
+    background: var(--bg-base);
+    overflow: hidden;
+    user-select: none;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* ─── Tab Bar ─────────────────────────── */
+#tab-bar {
+    display: flex;
+    flex-shrink: 0;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+#tab-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-btn {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 2px 5px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color var(--transition), border-color var(--transition), background var(--transition);
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-hover);
+}
+
+.tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.tab-icon {
+    font-size: 14px;
+    line-height: 1;
+}
+
+.tab-label {
+    font-size: 9px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+/* ─── Tab Content ─────────────────────── */
+.tab-content {
+    display: none;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 8px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+.tab-content::-webkit-scrollbar-track {
+    background: var(--bg-base);
+}
+
+.tab-content::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+.tab-content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ─── Tool Groups ─────────────────────── */
+.tool-group {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px;
+    margin-bottom: 6px;
+}
+
+.group-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+}
+
+/* ─── Buttons ─────────────────────────── */
+.tool-btn {
+    height: 28px;
+    padding: 0 10px;
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-size: 11px;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition), transform 60ms ease;
+    white-space: nowrap;
+}
+
+.tool-btn:hover {
+    background: var(--bg-active);
+    border-color: #555;
+}
+
+.tool-btn:active {
+    transform: scale(0.97);
+}
+
+.tool-btn.accent {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.tool-btn.accent:hover {
+    background: rgba(68, 136, 255, 0.25);
+}
+
+.tool-btn.danger {
+    background: rgba(255, 68, 85, 0.12);
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.tool-btn.danger:hover {
+    background: rgba(255, 68, 85, 0.22);
+}
+
+.tool-btn.full {
+    width: 100%;
+    margin-top: 4px;
+}
+
+/* ─── Button Rows ─────────────────────── */
+.btn-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.btn-row .tool-btn {
+    flex: 1;
+}
+
+.btn-row.wrap {
+    flex-wrap: wrap;
+}
+
+.btn-row.wrap .tool-btn {
+    flex: 0 0 auto;
+    min-width: calc(33% - 3px);
+}
+
+/* ─── Inputs ──────────────────────────── */
+input[type="text"],
+input[type="number"],
+select {
+    height: 28px;
+    padding: 0 8px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-size: 11px;
+    outline: none;
+    transition: border-color var(--transition);
+    flex: 1;
+    min-width: 0;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: var(--accent);
+}
+
+input::placeholder {
+    color: var(--text-dim);
+}
+
+input[type="color"] {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2px;
+    background: var(--bg-input);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+select {
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 22px;
+}
+
+select option {
+    background: var(--bg-panel);
+    color: var(--text-primary);
+}
+
+.input-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 4px;
+}
+
+.input-row.triple > input {
+    flex: 1;
+}
+
+/* ─── Audit / Info Lists ──────────────── */
+.audit-list, .info-panel {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 6px;
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 6px 8px;
+    display: none;
+}
+
+.audit-list.visible, .info-panel.visible {
+    display: block;
+}
+
+.audit-item {
+    padding: 2px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.audit-item:last-child {
+    border-bottom: none;
+}
+
+.audit-item .layer-name {
+    color: var(--accent);
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 2px 0;
+}
+
+.info-row .label {
+    color: var(--text-dim);
+}
+
+.info-row .value {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* ─── Color Swatches ──────────────────── */
+.swatch-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 6px;
+    min-height: 28px;
+}
+
+.swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: transform 100ms ease, box-shadow 100ms ease;
+}
+
+.swatch:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+}
+
+/* ─── Status Bar ──────────────────────── */
+#status-bar {
+    flex-shrink: 0;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--border);
+    font-size: 10px;
+    color: var(--text-secondary);
+}
+
+#status-text.success {
+    color: var(--success);
+}
+
+#status-text.error {
+    color: var(--danger);
+}
+
+/* ─── Hidden helper ───────────────────── */
+.hidden {
+    display: none !important;
+}
+
+/* ─── Responsive ──────────────────────── */
+@media (max-width: 340px) {
+    .tab-label {
+        display: none;
+    }
+    .tab-btn {
+        padding: 8px 4px;
+    }
+    .tab-icon {
+        font-size: 16px;
+    }
+}
