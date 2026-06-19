@@ -547,7 +547,77 @@ function precomposeSelected() {
 }
 
 function precompSelectedLayers() {
-    return precomposeSelected();
+    try {
+        var comp = requireSelection();
+        var sel = comp.selectedLayers;
+        app.beginUndoGroup("AE PowerTools: Pre-compose Selected Layers");
+
+        var infos = [];
+        for (var i = 0; i < sel.length; i++) {
+            var layer = sel[i];
+            infos.push({
+                id: layer.id,
+                index: layer.index,
+                name: layer.name,
+                startTime: layer.startTime,
+                inPoint: layer.inPoint,
+                outPoint: layer.outPoint
+            });
+        }
+
+        infos.sort(function (a, b) { return b.index - a.index; });
+
+        function getLayerById(c, id) {
+            for (var k = 1; k <= c.numLayers; k++) {
+                if (c.layer(k).id === id) return c.layer(k);
+            }
+            return null;
+        }
+
+        var count = 0;
+        var failed = 0;
+        var firstError = "";
+
+        for (var i = 0; i < infos.length; i++) {
+            var info = infos[i];
+            try {
+                var layer = getLayerById(comp, info.id);
+                if (!layer) continue;
+
+                var visibleDuration = info.outPoint - info.inPoint;
+                if (visibleDuration <= 0) visibleDuration = comp.frameDuration;
+
+                var precompName = info.name + "_comp";
+
+                var precompLayer = comp.layers.precompose([layer.index], precompName, true);
+                var precompItem = precompLayer.source;
+
+                if (precompItem) {
+                    precompItem.duration = visibleDuration;
+                    precompItem.workAreaStart = 0;
+                    precompItem.workAreaDuration = visibleDuration;
+                }
+
+                precompLayer.startTime = 0;
+                precompLayer.inPoint = info.inPoint;
+                precompLayer.outPoint = info.outPoint;
+
+                precompLayer.selected = true;
+                count++;
+            } catch (layerErr) {
+                failed++;
+                if (!firstError) firstError = layerErr.message;
+            }
+        }
+
+        app.endUndoGroup();
+
+        if (count === 0 && failed > 0) {
+            return jsonErr("Failed to precompose layer(s): " + firstError);
+        }
+
+        return jsonOk(count + " layers precomped");
+    } catch (e) { return jsonErr(e.message); }
 }
 
 function setCompBgColor(rgb) {
