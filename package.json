@@ -1,15 +1,38 @@
 {
-  "name": "editor's-hideout-bots",
+  "name": "hinata-discord-bot",
   "version": "1.0.0",
-  "description": "",
+  "description": "A modular open-source Discord.js bot for moderation, tickets, leveling, dynamic voice channels, self-roles, and community utilities.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "check": "node --check index.js",
+    "test": "node --test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "discord",
+    "discord-bot",
+    "discord-js",
+    "moderation",
+    "tickets",
+    "leveling",
+    "automod",
+    "self-hosted",
+    "open-source"
+  ],
+  "author": "Ajay Dudhmal",
+  "license": "MIT",
   "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajaydudhaml01-arch/hinata-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ajaydudhaml01-arch/hinata-bot/issues"
+  },
+  "homepage": "https://github.com/ajaydudhaml01-arch/hinata-bot#readme",
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "dependencies": {
     "axios": "^1.16.1",
     "discord.js": "^14.26.4",

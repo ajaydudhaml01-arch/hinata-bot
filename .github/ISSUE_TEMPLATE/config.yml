@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Usage and setup help
+    url: https://github.com/ajaydudhaml01-arch/hinata-bot/blob/main/SUPPORT.md
+    about: Read the support guide before opening an issue.

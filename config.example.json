@@ -8,15 +8,17 @@
     "neutral": "#2B2D31"
   },
   "defaultSettings": {
-    "welcomeChannelId": "1467356654487208048",
-    "farewellChannelId": "1467359263767662767",
+    "welcomeChannelId": "",
+    "farewellChannelId": "",
     "welcomeRoleName": "Member",
-    "ticketCategoryId": "1467388411454423214",
+    "ticketCategoryId": "",
     "ticketStaffRoleId": "",
-    "logChannelId": "1467359183014990067",
+    "logChannelId": "",
     "joinToCreateChannelId": "",
-    "blockedWords": ["free-nitro", "discord-scam", "cheap-vbucks"],
+    "blockedWords": [
+      "example-blocked-word"
+    ],
     "levelRoles": {},
-    "memberCountChannelId": "1467378476695945399"
+    "memberCountChannelId": ""
   }
 }
