@@ -4,6 +4,8 @@ All notable project changes will be documented here.
 
 ## Unreleased
 
+## 1.0.0 - 2026-09-06
+
 ### Added
 
 - open-source project documentation
